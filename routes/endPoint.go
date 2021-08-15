@@ -41,6 +41,7 @@ func Endpoint() {
 	e.DELETE("/article/:id", service.DeleteArticle)
 	e.PATCH("/article/:id", service.UpdateArticle)
 	e.GET("/article/all/", service.ReadAllArticle)
+	e.GET("/", service.DefaultRoute)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

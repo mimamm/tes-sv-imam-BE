@@ -55,6 +55,10 @@ func ReadAllArticle(c echo.Context) error {
 	result := repository.ReadAllArticle()
 	return c.JSON(http.StatusOK, result)
 }
+func DefaultRoute(c echo.Context) error {
+	result := "Hello"
+	return c.JSON(http.StatusOK, result)
+}
 
 // Read by Id
 func ReadArticleById(c echo.Context) error {
