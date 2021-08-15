@@ -3,6 +3,7 @@ package routes
 import (
 	"article/service"
 	"net/http"
+	"os"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo"
@@ -43,5 +44,5 @@ func Endpoint() {
 	e.GET("/article/all/", service.ReadAllArticle)
 	e.GET("/", service.DefaultRoute)
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
