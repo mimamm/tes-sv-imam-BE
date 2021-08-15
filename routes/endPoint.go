@@ -32,7 +32,8 @@ func Endpoint() {
 	}))
 
 	// Generate Datase
-	e.POST("/database/use", service.GenerateDatabase)
+	e.POST("/database/set", service.GenerateDatabase)
+	e.POST("/database/example-data", service.InsertExampleData)
 
 	// Article Endpoint
 	e.POST("/article/", service.CreateArticle)

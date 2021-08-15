@@ -17,3 +17,12 @@ func GenerateDatabase() *DatabaseResponse {
 	Res = &DatabaseResponse{200, "Database Ready!"}
 	return Res
 }
+
+func InsertExampleData() *DatabaseResponse {
+	Res := &DatabaseResponse{500, "Internal Server Error"}
+
+	driver.InsertExampleData()
+
+	Res = &DatabaseResponse{200, "Insert Example Data Success!"}
+	return Res
+}
