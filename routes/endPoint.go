@@ -2,15 +2,45 @@ package routes
 
 import (
 	"article/service"
+	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
-//RoleEndPoint function
+type CustomValidator struct {
+	validator *validator.Validate
+}
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	if err := cv.validator.Struct(i); err != nil {
+		// Optionally, you could return the error to give each route more control over the status code
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	return nil
+}
+
+//Endpoint Function
 func Endpoint() {
 	e := echo.New()
-	//roles endpoint
+	e.Validator = &CustomValidator{validator: validator.New()}
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowMethods: []string{"GET", "POST", "PUT", "UPDATE", "DELETE", "PATCH"},
+	}))
+
+	// Generate Datase
+	e.POST("/database/use", service.GenerateDatabase)
+
+	// Article Endpoint
 	e.POST("/article/", service.CreateArticle)
+	e.GET("/article/:limit/:offset", service.ReadArticleWithPagination)
+	e.GET("/article/:id", service.ReadArticleById)
+	e.DELETE("/article/:id", service.DeleteArticle)
+	e.PATCH("/article/:id", service.UpdateArticle)
+	e.GET("/article/all/", service.ReadAllArticle)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

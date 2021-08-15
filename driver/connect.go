@@ -5,23 +5,60 @@ import (
 	"fmt" // package used to read the .env file
 	"log"
 
-	_ "github.com/lib/pq" // postgres golang driver
+	_ "github.com/go-sql-driver/mysql" // mysql golang driver
 )
 
 const (
-	user     = "postgres"
+	user     = "root"
+	password = "mymysql"
 	dbname   = "article"
-	password = "mypostgres"
-	host     = "localhost"
-	port     = 5432
+	host     = "127.0.0.1"
+	port     = 3306
 )
+
+// Generate Database Function
+func GenerateDatabase() {
+
+	db, err := sql.Open("mysql", "root:mymysql@tcp(127.0.0.1:3306)/")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	_, err = db.Exec("CREATE DATABASE IF NOT EXISTS " + dbname)
+	if err != nil {
+		panic(err)
+	}
+
+	mysqlInfo := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s",
+		user, password, host, port, dbname)
+
+	db, err = sql.Open("mysql", mysqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS posts (
+		id INT NOT NULL AUTO_INCREMENT NOT NULL PRIMARY KEY,
+		title VARCHAR(200) NOT NULL,
+		content text NOT NULL,
+		category VARCHAR(100) NOT NULL,
+		created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		updated_date TIMESTAMP NULL DEFAULT NULL,
+		status ENUM('Publish','Draft','Thrash')
+		)`)
+	if err != nil {
+		panic(err)
+	}
+}
 
 //ConnectDB function
 func ConnectDB() (*sql.DB, error) {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-	db, err := sql.Open("postgres", psqlInfo)
+	mysqlInfo := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s",
+		user, password, host, port, dbname)
+
+	db, err := sql.Open("mysql", mysqlInfo)
 	if err != nil {
 		log.Println(err.Error())
 		panic(err)
