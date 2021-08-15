@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt" // package used to read the .env file
 	"log"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql" // mysql golang driver
 )
@@ -12,14 +13,14 @@ const (
 	user     = "root"
 	password = "mymysql"
 	dbname   = "article"
-	host     = "127.0.0.1"
-	port     = 3306
+	host     = ""
+	// port     = 3306
 )
 
 // Generate Database Function
 func GenerateDatabase() {
 
-	db, err := sql.Open("mysql", "root:mymysql@tcp(127.0.0.1:3306)/")
+	db, err := sql.Open("mysql", "root:mymysql@tcp(:"+os.Getenv("PORT")+")/")
 	if err != nil {
 		panic(err)
 	}
@@ -30,8 +31,8 @@ func GenerateDatabase() {
 		panic(err)
 	}
 
-	mysqlInfo := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s",
-		user, password, host, port, dbname)
+	mysqlInfo := fmt.Sprintf("%s:%s@tcp(%s:"+os.Getenv("PORT")+")/%s",
+		user, password, host, dbname)
 
 	db, err = sql.Open("mysql", mysqlInfo)
 	if err != nil {
@@ -55,8 +56,8 @@ func GenerateDatabase() {
 
 //ConnectDB function
 func ConnectDB() (*sql.DB, error) {
-	mysqlInfo := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s",
-		user, password, host, port, dbname)
+	mysqlInfo := fmt.Sprintf("%s:%s@tcp(%s:"+os.Getenv("PORT")+")/%s",
+		user, password, host, dbname)
 
 	db, err := sql.Open("mysql", mysqlInfo)
 	if err != nil {
