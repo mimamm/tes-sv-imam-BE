@@ -23,7 +23,7 @@ Lakukan Git Clone pada kedua repositori Git:
 - BE: https://github.com/mimamm/tes-sv-imam-BE.git
 - FE: https://github.com/mimamm/tes-sv-imam-FE.git
 
-Untuk mengganti password database aplikasi dapat dilakukan pada direktori:
+Untuk mengganti password database aplikasi supaya sesuai dengan password MySQL dari user dapat dilakukan pada direktori:
 	tes-sv-imam-BE/driver/connect.go 
 
 Run terminal pada folder BE (tes-sv-imam-BE) jalankan "go run main.go"
