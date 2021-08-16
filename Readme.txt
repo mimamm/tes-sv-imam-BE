@@ -1,5 +1,5 @@
 Tes - Article - FS - Muhammad Imam Maulana
---------------
+------------------------------------------
 
 Versi Go = go1.16.6 windows/amd64
 Versi React = 17.0.2
@@ -37,7 +37,7 @@ Jalankan Request "Insert Example Dummy Data" untuk memasukkan data dummy
 
 
 Run Application (Menggunakan UI Frontend)
-----------------------------------------------------
+-----------------------------------------
 
 Run terminal pada folder FE (tes-sv-imam-FE) jalankan "npm install"
 setelah selesai, jalankan "npm start"
@@ -47,7 +47,7 @@ Aplikasi melalui Frontend siap digunakan dengan menu-menu pada sidebar
 
 
 Run Application (Backend - Melalui Request Postman)
----------------
+---------------------------------------------------
 
 1. Membuat Database & Table
 postman request: Generate Database & Table
